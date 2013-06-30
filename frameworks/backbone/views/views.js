@@ -26,9 +26,8 @@ var UserForm = Backbone.View.extend({
 			success: function() {
 				$("#user-form").html("User Created")
 			},
-			error: function(a, b) {
-				console.log(a)
-				console.log(b.responseText)
+			error: function(response, body) {
+				console.log(body.responseText)
 				alert("Baaaad")
 			}
 		});
@@ -60,10 +59,10 @@ var LoginForm = Backbone.View.extend({
 		this.session.save({}, {
 			success: function() {
 				$("#login-form").html("Logged In")
+				account.setCurrentAccount()
 			},
-			error: function(a, b) {
-				console.log(a)
-				console.log(b.responseText)
+			error: function(response, body) {
+				console.log(body.responseText)
 				alert("Baaaad")
 			}
 		});
