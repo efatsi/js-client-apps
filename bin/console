@@ -1,0 +1,25 @@
+#!/bin/bash
+
+irb
+require 'data_mapper'
+require 'dm-ar-finders'
+require 'active_support/json'
+require 'active_support/inflector'
+require 'bcrypt'
+
+load 'server/app/lib/polymorphism.rb'
+load 'server/app/lib/timestamps.rb'
+
+load 'server/app/models/user.rb'
+load 'server/app/models/session.rb'
+load 'server/app/models/token.rb'
+load 'server/app/models/article.rb'
+load 'server/app/models/comment.rb'
+load 'server/app/models/vote.rb'
+load 'server/app/models/karma_calculator.rb'
+
+root = File.expand_path(File.dirname(__FILE__) + '/server/app')
+DataMapper.setup(:default, "sqlite:///#{root}/db/js-frameworks-development.sqlite3")
+
+DataMapper.finalize
+DataMapper.auto_upgrade!
