@@ -1,3 +1,40 @@
+var UserForm = Backbone.View.extend({
+	events: {
+		'submit form': 'create'
+	},
+
+	initialize: function(options) {
+		this.user = options.user
+	},
+
+	render: function() {
+		var html = '<form><h1>Create User</h1><label>Email address</label><input name="email" id="email" type="email"><label>Username</label><input name="username" id="username"><label>Password</label><input name="password" id="password" type="password"><label>Password Confirmation</label><input name="password_confirmation" id="password-confirmation" type="password"><button type="submit">Submit</button></form>'
+		$(this.el).html(html);
+	},
+
+	create: function(e) {
+		e.preventDefault();
+
+		this.user.set({
+			email: $("#email").val(),
+			username: $("#username").val(),
+			password: $("#password").val(),
+			password_confirmation: $("#password-confirmation").val()
+		})
+
+		this.user.save({}, {
+			success: function() {
+				$("#user-form").html("User Created")
+			},
+			error: function(a, b) {
+				console.log(a)
+				console.log(b.responseText)
+				alert("Baaaad")
+			}
+		});
+	}
+});
+
 var LoginForm = Backbone.View.extend({
 	events: {
 		'submit form': 'login'
@@ -8,7 +45,7 @@ var LoginForm = Backbone.View.extend({
 	},
 
 	render: function() {
-		var html = '<form><h1>Log In</h1><label>Email address</label><input name="email" id="email" type="email"><label>Password</label><input name="password" id="password" type="password"><button type="submit">Submit</button></form>'
+		var html = '<form><h1>Log In</h1><label>Email address</label><input name="email" id="login-email" type="email"><label>Password</label><input name="password" id="login-password" type="password"><button type="submit">Submit</button></form>'
 		$(this.el).html(html);
 	},
 
@@ -16,16 +53,18 @@ var LoginForm = Backbone.View.extend({
 		e.preventDefault();
 
 		this.session.set({
-			email: $("#email").val(),
-			password: $("#password").val()
+			email: $("#login-email").val(),
+			password: $("#login-password").val()
 		})
 
 		this.session.save({}, {
 			success: function() {
 				$("#login-form").html("Logged In")
 			},
-			error: function() {
-				alert("Bad credentials")
+			error: function(a, b) {
+				console.log(a)
+				console.log(b.responseText)
+				alert("Baaaad")
 			}
 		});
 	}
