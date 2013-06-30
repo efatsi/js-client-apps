@@ -13,14 +13,33 @@ var Account = Backbone.Model.extend({
 		this.user = options.user;
 	},
 
+	parse: function(response) {
+		this.user.set(response);
+
+		delete response.points;
+		return response;
+	},
+
+	toJSON: function() {
+		var attributes = this.user.attributes;
+		delete attributes.points;
+		return this.user.attributes;
+	},
+
 	setCurrentAccount: function() {
 		this.fetch({
 			headers: {
 				'Content-Type': 'application/json',
 				'X-User-Token': session.get("token")
-			},
-			success: function(response, userJSON) {
-				user.set(userJSON)
+			}
+		});
+	},
+
+	updateUser: function() {
+		this.save({}, {
+			headers: {
+				'Content-Type': 'application/json',
+				'X-User-Token': session.get("token")
 			}
 		});
 	}
