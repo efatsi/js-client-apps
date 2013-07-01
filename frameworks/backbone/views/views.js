@@ -70,7 +70,8 @@ var LoginForm = Backbone.View.extend({
 	},
 
 	initialize: function(options) {
-		this.session = options.session;
+		this.session  = options.session;
+		this.userView = options.userView;
 	},
 
 	render: function() {
@@ -105,12 +106,13 @@ var UserForm = Backbone.View.extend({
 	},
 
 	initialize: function(options) {
-		this.user    = options.user;
-		this.account = options.account;
+		this.user     = options.user;
+		this.account  = options.account;
+		this.userView = options.userView;
 	},
 
 	render: function() {
-		var html = '<form><h1>Update User</h1><label>Email address</label><input name="email" id="email" type="email" value="' + this.user.attributes.email + '"><label>Username</label><input name="username" id="username" value="' + this.user.attributes.username + '"><button type="submit">Submit</button></form>'
+		var html = '<form><h1>Update User</h1><label>Email address</label><input name="email" id="email" type="email" value="' + this.user.get("email") + '"><label>Username</label><input name="username" id="username" value="' + this.user.get("username") + '"><button type="submit">Submit</button></form>'
 		$(this.el).html(html);
 	},
 
@@ -125,5 +127,17 @@ var UserForm = Backbone.View.extend({
 		})
 
 		this.account.updateUser();
+		this.userView.render();
+	}
+});
+
+var UserView = Backbone.View.extend({
+	initialize: function(options) {
+		this.user = options.user;
+	},
+
+	render: function() {
+		var html = '<h2>Current User</h2>Email: ' + this.user.get("email") + '<br>Username: ' + this.user.get("username");
+		$(this.el).html(html);
 	}
 });
